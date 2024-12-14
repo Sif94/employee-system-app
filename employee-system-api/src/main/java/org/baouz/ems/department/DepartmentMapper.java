@@ -12,4 +12,13 @@ public class DepartmentMapper {
                 .location(request.location())
                 .build();
     }
+
+    public DepartmentResponse toDepartmentResponse(Department department) {
+        return DepartmentResponse.builder()
+                .id(department.getId())
+                .name(department.getName())
+                .description(department.getDescription())
+                .location(department.getLocation())
+                .build();
+    }
 }
