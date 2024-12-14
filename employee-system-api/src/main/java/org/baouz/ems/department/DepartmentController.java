@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("departments")
@@ -29,5 +31,10 @@ public class DepartmentController {
             @PathVariable String id
     ) {
         return ResponseEntity.ok(service.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DepartmentResponse>> findAllDepartments() {
+        return ResponseEntity.ok(service.findAll());
     }
 }
