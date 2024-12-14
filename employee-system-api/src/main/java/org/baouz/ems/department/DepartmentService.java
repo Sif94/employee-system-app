@@ -4,6 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static java.lang.String.format;
 
 @Service
@@ -26,5 +29,9 @@ public class DepartmentService {
                 .orElseThrow(
                         () -> new EntityNotFoundException(format("Department with ID:: %s was not found", id))
                 );
+    }
+
+    public List<DepartmentResponse> findAll() {
+        return repository.findAll().stream().map(mapper::toDepartmentResponse).collect(Collectors.toList());
     }
 }
