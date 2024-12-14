@@ -1,4 +1,4 @@
-package org.baouz.ems.commun;
+package org.baouz.ems.common;
 
 
 import jakarta.persistence.Column;
