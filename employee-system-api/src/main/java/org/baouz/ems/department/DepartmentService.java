@@ -1,20 +1,19 @@
 package org.baouz.ems.department;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static java.lang.String.format;
 
 @Service
+@RequiredArgsConstructor
 public class DepartmentService {
 
     private final DepartmentRepository repository;
     private final DepartmentMapper mapper;
 
-    public DepartmentService(DepartmentRepository repository, DepartmentMapper mapper) {
-        this.repository = repository;
-        this.mapper = mapper;
-    }
+
 
     public String save(DepartmentRequest request) {
         var department = mapper.toDepartment(request);

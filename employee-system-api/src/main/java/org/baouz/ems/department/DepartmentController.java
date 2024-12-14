@@ -2,20 +2,18 @@ package org.baouz.ems.department;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("departments")
 @Tag(name = "Department")
 public class DepartmentController {
 
     private final DepartmentService service;
-
-    public DepartmentController(DepartmentService service) {
-        this.service = service;
-    }
 
     @PostMapping
     public ResponseEntity<String> saveDepartment(
