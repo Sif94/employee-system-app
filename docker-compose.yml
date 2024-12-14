@@ -1,0 +1,70 @@
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres-ems
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sif
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak
+    volumes:
+      - spring-postgres:/var/lib/postgresql/data
+    networks:
+      - spring-ems
+    restart: unless-stopped
+
+  maildev-ems:
+    image: maildev/maildev
+    container_name: maildev-ems
+    ports:
+      - "1024:1025"
+      - "1080:1080"
+    networks:
+      - spring-ems
+
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: rabbitmq-ems
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - spring-ems
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.7
+    container_name: keycloak-ems
+    ports:
+      - "9090:8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: sif
+      KC_DB_PASSWORD: password
+      KC_HOSTNAME: localhost
+    depends_on:
+      - postgres
+    command:
+      - "start-dev"
+    networks:
+      - spring-ems
+
+  redis:
+    image: redis:7.4.1-alpine
+    container_name: redis-ems
+    ports:
+      - "6379:6379"
+    networks:
+      - spring-ems
+
+
+
+networks:
+  spring-ems:
+    driver: bridge
+volumes:
+  spring-postgres:
+    driver: local
