@@ -34,4 +34,17 @@ public class DepartmentService {
     public List<DepartmentResponse> findAll() {
         return repository.findAll().stream().map(mapper::toDepartmentResponse).collect(Collectors.toList());
     }
+
+    public String updateDepartment(DepartmentRequest request) {
+        repository.findById(request.id())
+                .orElseThrow(
+                        () -> new EntityNotFoundException(format("Department with ID:: %s was not found", request.id()))
+                );
+        var updatedDepartment = mapper.toDepartment(request);
+        return repository.save(updatedDepartment).getId();
+    }
+
+    public void deleteDepartment(String id) {
+        repository.deleteById(id);
+    }
 }
